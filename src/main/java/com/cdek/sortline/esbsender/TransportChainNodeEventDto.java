@@ -1,17 +1,15 @@
 package com.cdek.sortline.esbsender;
 
-import com.cdek.commons.js.EsbEntityDto;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+/**
+ * @author s.krivozyatev 13.03.19 16:09
+ */
 @Getter
 @Setter
-@ToString
-public class TransportChain extends EsbEntityDto {
-
-  public static final String MESSAGE_TYPE = "obj.transportChain";
+public class TransportChainNodeEventDto {
 
   /**
    * Идентификатор цепочки
@@ -24,9 +22,19 @@ public class TransportChain extends EsbEntityDto {
   private String office;
 
   /**
+   * Тип транспорта
+   */
+  private Integer transportType;
+
+  /**
    * Следующий офис
    */
   private String nextOffice;
+
+  /**
+   * Офис назначения
+   */
+  private String recipientOffice;
 
   /**
    * Минимальная дата прибытия

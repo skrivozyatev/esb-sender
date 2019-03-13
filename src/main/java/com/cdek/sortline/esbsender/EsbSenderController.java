@@ -23,12 +23,12 @@ public class EsbSenderController {
   }
 
   @RequestMapping(value = "/send/transportchain", method = RequestMethod.POST, produces = "application/json")
-  public String sendTransportChain(@RequestBody TransportChain transportChain) {
-    EsbMessage<TransportChain> esbMessage = new EsbMessage<>();
+  public String sendTransportChain(@RequestBody TransportChainEventDto transportChain) {
+    EsbMessage<TransportChainEventDto> esbMessage = new EsbMessage<>();
     transportChain.setUuid(UUID.randomUUID());
     transportChain.setTimestamp(ZonedDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli());
     esbMessage.setEntity(transportChain);
-    esbMessage.setMessageType(TransportChain.MESSAGE_TYPE);
+    esbMessage.setMessageType(TransportChainEventDto.MESSAGE_TYPE);
     esbMessage.setRoutingKey("");
     esbClient.publishObject(esbMessage);
     return transportChain.toString();
