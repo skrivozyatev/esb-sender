@@ -1,5 +1,6 @@
 package com.cdek.sortline.esbsender;
 
+import com.cdek.commons.js.EsbEntityDto;
 import com.cdek.queue.EsbClient;
 import com.cdek.queue.rabbit.EsbMessage;
 import java.time.ZoneOffset;
@@ -24,13 +25,22 @@ public class EsbSenderController {
 
   @RequestMapping(value = "/send/transportchain", method = RequestMethod.POST, produces = "application/json")
   public String sendTransportChain(@RequestBody TransportChainEventDto transportChain) {
-    EsbMessage<TransportChainEventDto> esbMessage = new EsbMessage<>();
-    transportChain.setUuid(UUID.randomUUID());
-    transportChain.setTimestamp(ZonedDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli());
-    esbMessage.setEntity(transportChain);
-    esbMessage.setMessageType(TransportChainEventDto.MESSAGE_TYPE);
+    return send(transportChain, TransportChainEventDto.MESSAGE_TYPE);
+  }
+
+  @RequestMapping(value = "/send/macroZone", method = RequestMethod.POST, produces = "application/json")
+  public String sendMacroZone(@RequestBody MacroZoneEventDto macroZoneEventDto) {
+    return send(macroZoneEventDto, MacroZoneEventDto.MESSAGE_TYPE);
+  }
+
+  private <T extends EsbEntityDto> String send(T esbEntityDto, String messageType) {
+    EsbMessage<T> esbMessage = new EsbMessage<>();
+    esbEntityDto.setUuid(UUID.randomUUID());
+    esbEntityDto.setTimestamp(ZonedDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli());
+    esbMessage.setEntity(esbEntityDto);
+    esbMessage.setMessageType(messageType);
     esbMessage.setRoutingKey("");
     esbClient.publishObject(esbMessage);
-    return transportChain.toString();
+    return esbEntityDto.toString();
   }
 }

@@ -3,6 +3,7 @@ package com.cdek.sortline.esbsender;
 import com.cdek.queue.EsbClient;
 import com.cdek.queue.register.EsbClientInitializer;
 import com.zaxxer.hikari.HikariDataSource;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.sql.DataSource;
 import org.hc.jp.exceptions.ExceptionBuilder;
@@ -50,7 +51,7 @@ public class EsbSenderApplication {
 	public EsbClientInitializer esbClientInitializer() {
 		EsbClientInitializer esbClientInitializer = new EsbClientInitializer();
 		esbClientInitializer.setSubscribeToESB(true);
-		esbClientInitializer.setPublishObjects(Collections.singletonList("obj.transportChain"));
+		esbClientInitializer.setPublishObjects(Arrays.asList("obj.transportChain", "obj.macrozone"));
 		return esbClientInitializer;
 	}
 
