@@ -14,5 +14,7 @@ public class TransportChainEventDto extends EsbEntityDto {
 
   public static final String MESSAGE_TYPE = "obj.transportChain";
 
+  private String chainId;
+
   private List<TransportChainNodeEventDto> nodeList;
 }
